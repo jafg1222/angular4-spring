@@ -1,10 +1,9 @@
 export class NoteItem{
     constructor(                
-        public _id:string,
+        public id:string,
         public title:string,
-        public bodyNote:string,
-        public date:Date,
-        public flag:boolean
+        public body:string,
+        public createdDate:Date      
     ){
 
     }

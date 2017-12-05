@@ -46,8 +46,8 @@
                 </div>
                 <div class="panel-body">
                     <ul class="list-group">
-                        <a *ngFor="let note of notes" class="list-group-item" (click)="select(note._id)">
-                            <span class="badge">{{note.date | date:'medium'}}</span>
+                        <a *ngFor="let note of notes" class="list-group-item" (click)="select(note.id)">
+                            <span class="badge">{{note.createdDate | date:'medium'}}</span>
                             {{note.title}} </a>
                     </ul>
                 </div>
@@ -57,12 +57,12 @@
             <div class="panel panel-warning">                
 
                 <div class="panel-heading panel-note  text-center">
-                    <h2>{{this.note.data.title}}</h2>
-                    <span class="label label-info text-capitalize">{{this.note.data.date | date}}</span>
+                    <h2>{{this.note.title}}</h2>
+                    <span class="label label-info text-capitalize">{{this.note.date | date}}</span>
                 </div>
                 <div class="panel-body" style="padding:0;border:0px;height:160px;overflow-y:auto">
                     <br>
-                    <p class=" text-center">{{ this.note.data.body }}</p>                    
+                    <p class=" text-center">{{ this.note.body }}</p>                    
                 </div>
                 <div class="panel-footer panel-note"><button (click)="back()" class="btn btn-default">Back</button></div>
             </div>

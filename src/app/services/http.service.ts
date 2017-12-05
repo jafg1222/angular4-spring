@@ -9,18 +9,16 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class consultingService{
-    url = "http://192.168.0.106:8080/api/notes";    
+    url = "http://192.168.0.106:8080/api/allNotes";
+    data: any = null;
+    
 
     constructor(private http:Http){        
     }
 
-    getNotes(): Promise<NoteItem[]>{
-        let headers =  new Headers({'Access-Control-Allow-Origin':'*'});
-        return this.http.get(this.url)
-                    .toPromise()
-                    .then(response => response.json().data as NoteItem[])
-                    .catch(this.handleError)
-
+    getAllNotes() {
+        return this.http.get('http://localhost:8080/api/allNotes')
+                    .map((res: Response) => res.json())                     
     }
 
     getLastNotes(): Promise<NoteItem[]>{
@@ -32,7 +30,7 @@ export class consultingService{
     }
 
     deletedNotes(id): Promise<void>{
-        let UrlDeleted = this.url+'/'+id;        
+        let UrlDeleted ='http://localhost:8080'+'/api/notes/'+id;        
         return this.http.delete(UrlDeleted)
         .toPromise()
         .then(() => null)
@@ -42,18 +40,18 @@ export class consultingService{
     postNotes(data): Promise<NoteItem>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.url,data,options)
+        return this.http.post('http://localhost:8080/api/Notes',data,options)
                 .toPromise()
                 .then(this.extractData)
                 .catch(this.handleError)
     }
 
-    getOneNote(id):Promise<NoteItem[]>{
-        let urlApi = `http://localhost:3000/notes/${id}`;
-        return this.http.get(urlApi)
-        .toPromise()
-        .then(response=> response.json() as NoteItem[])
-        .catch(this.handleError)
+    getOneNote(id){
+        let urlApi = `http://localhost:8080/api/notes/${id}`;
+        let headers = new Headers({ 'Access-Control-Allow-Origin': '*' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(urlApi,options)
+        .map((res: Response) => res.json());               
     }
 
     private extractData(res: Response) {

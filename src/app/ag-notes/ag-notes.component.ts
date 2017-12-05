@@ -29,18 +29,21 @@ export class AgNotesComponent implements OnInit {
     });
    }
 
-  ngOnInit() {    
-    this.noteService.getLastNotes().then(notas =>  this.notes = notas);
-  }
+  ngOnInit() {        
+    this.noteService.getAllNotes().subscribe(data => {
+      this.notes = data;                            
+      console.log(this.notes)
+  });
+}
 
   addPost(post){
-    let newNote = [{'title':post.title,'body':post.bodyNote,'flag':true}];
+    let newNote = {'title':post.title,'body':post.bodyNote};
     console.log(JSON.stringify(newNote));
     
     this.noteService.postNotes(JSON.stringify(newNote))
     .then(
-      (res)=>this.noteService.getLastNotes()
-            .then(
+      (res)=>this.noteService.getAllNotes()
+            .subscribe(
                 notas =>  this.notes = notas))
     .catch((err)=>{console.log(err)});
     
@@ -48,17 +51,14 @@ export class AgNotesComponent implements OnInit {
     this.nForm.reset();
   }
 
-  select(id:any){    
-    this.noteService.getOneNote(id)
-    .then(notas=>{
-      this.note = notas;
+  select(id:any){
+    this.noteService.getOneNote(id).subscribe(data => {      
+      this.note = data;                            
       this.show=false;
-      this.show2=true;            
-    })
-    .catch(err=>{
-      console.log(err)
-    })  
-   
+      this.show2=true;
+      console.log(this.note)
+  });    
+    
   }
 
   back(){
